@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f2eb">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Emi Hakki, Chef &amp; Creator">
+<meta property="og:description" content="Là où la pâtisserie devient art, et les idées deviennent histoires. Bientôt disponible.">
+<meta property="og:url" content="https://emihakki.com/">
+<meta property="og:image" content="https://emihakki.com/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<title>Emi Hakki, Chef &amp; Creator</title>
+<meta name="description" content="Emi Hakki, Chef & Creator. Le site arrive bientôt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@400;500;600&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+img{max-width:100%}[hidden]{display:none!important}
+/* Concept: one calm screen over a photographed wall: chocolate pours over a brass rail at the top edge, the centre stays clear.
+   A whisk orbits the monogram, one sentence rotates FR / AR / EN with its "Coming soon" tag, three social marks, then a launch progress bar.
+   The wall is a single warm look, so the page stays light in every system theme. */
+:root {
+  color-scheme: light;
+  --bg: #e9d6bb;
+  --surface: rgba(251, 247, 240, .74);
+  --fg: #1a1a1a;
+  --head: #1e3a8a;
+  --muted: #55483a;
+  --line: #c9b490;
+  --gold: #d4af37;
+  --gold-deep: #b88a1c;
+  --choc: #4a2411;
+  --gold-ink: #7d5f0e;
+  --disc: #f8f3ea;
+  --rim: #cdb88f;
+  --display: "Cinzel", "Tajawal", Georgia, serif;
+  --body: "Montserrat", "Tajawal", system-ui, sans-serif;
+  --arabic: "Tajawal", "Montserrat", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: clamp(64px, 10vh, 110px); padding-bottom: 32px;
+  min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 34px;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* Background: chocolate pouring over a brass rail onto a plaster wall */
+.wall { position: fixed; inset: 0; z-index: -1; background: #e9d6bb url(assets/wall.jpg) center / cover no-repeat; }
+@media (max-aspect-ratio: 1/1) { .wall { background-position: 30% 0; } }
+
+/* Floating pistachio chocolate */
+.float { position: absolute; z-index: 2; left: -34px; top: -52px; width: 112px; pointer-events: none; }
+.float img { display: block; width: 100%; height: auto; transform-origin: 50% 60%; animation: bob 7s ease-in-out infinite; filter: drop-shadow(0 8px 7px rgba(70, 30, 10, .38)); }
+.float::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: -12px; height: 9px; border-radius: 50%; background: radial-gradient(closest-side, rgba(70, 30, 10, .3), transparent); filter: blur(2px); animation: floor 7s ease-in-out infinite; }
+@keyframes bob { 0%, 100% { transform: translateY(3px) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+@keyframes floor { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.82); opacity: .6; } }
+@media (max-width: 520px) { .float { left: -8px; top: -48px; width: 96px; } }
+
+/* Logo in an orbit ring */
+.ring { position: relative; margin-bottom: 22px; width: min(236px, 29vh, 66vw); aspect-ratio: 1; display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ring .disc { fill: var(--disc); }
+.ring .rim { fill: none; stroke: var(--rim); stroke-width: 1; }
+.ring .dash { fill: none; stroke: var(--gold-deep); stroke-width: 2.4; stroke-dasharray: .1 7; stroke-linecap: round; }
+.ring .trail { fill: none; stroke: url(#trail); stroke-width: 2.4; stroke-linecap: round; }
+.ring .whisk { fill: none; stroke: var(--gold-deep); stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round; }
+.ring .plate { fill: none; }
+.spin { transform-box: view-box; transform-origin: 160px 160px; animation: spin 24s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logo { position: relative; width: 74%; display: grid; place-items: center; }
+.logo img { display: block; width: 100%; height: auto; }
+
+/* Rotating message: every [data-l] sits in the same grid cell, the current language fades in */
+.cy { display: grid; justify-items: center; text-align: center; }
+.cy > [data-l] { grid-area: 1 / 1; opacity: 0; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; }
+html[data-cur="fr"] .cy > [data-l="fr"],
+html[data-cur="ar"] .cy > [data-l="ar"],
+html[data-cur="en"] .cy > [data-l="en"] { opacity: 1; transform: none; pointer-events: auto; transition: opacity .9s ease .8s, transform .9s ease .8s; }
+.msg { width: min(560px, 100%); }
+.pill {
+  display: inline-flex; align-items: center; gap: 10px; padding: 7px 16px; border: 1px solid var(--line); background: rgba(251, 247, 240, .6);
+  font-size: .7rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted);
+}
+.pill i { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 22%, transparent); }
+.msg h1 { margin: 18px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(1.25rem, 4.6vw, 1.95rem); line-height: 1.32; letter-spacing: .01em; text-wrap: balance; }
+.msg h1 span { display: block; }
+.msg h1 { color: var(--choc); }
+.msg h1 span + span { color: var(--choc); }
+.msg [lang] .pill { color: var(--choc); border-color: color-mix(in srgb, var(--choc) 45%, transparent); }
+.msg [lang="ar"] .pill { letter-spacing: 0; text-transform: none; font-size: .82rem; }
+.msg [lang="ar"] h1 span, .msg [lang="ar"] h1 span + span { color: var(--head); }
+.msg [lang="ar"] h1 { font-family: var(--arabic); font-weight: 700; font-size: clamp(1.45rem, 5.2vw, 2.2rem); line-height: 1.6; letter-spacing: 0; }
+
+/* Socials */
+.social { display: flex; gap: 14px; }
+.social a {
+  width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%;
+  color: var(--head); background: rgba(251, 247, 240, .6); transition: border-color .4s ease, transform .4s ease, color .4s ease;
+}
+.social a:hover { border-color: var(--gold); transform: translateY(-3px); }
+.social svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Launch bar: loops 0 to 90 %, one caption per stage of the site */
+.bar { position: relative; width: min(440px, 100%); border: 1px solid var(--line); background: var(--surface); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding: 16px 20px 14px; display: grid; gap: 12px; }
+.stage { min-height: 1.5em; text-align: center; font-size: .8rem; letter-spacing: .1em; color: var(--muted); transition: opacity .3s ease; }
+.stage.out { opacity: 0; }
+.stage.ar { font-family: var(--arabic); font-size: .95rem; letter-spacing: 0; }
+.track { position: relative; height: 4px; background: var(--line); overflow: hidden; }
+.fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--head); }
+.fill::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); }
+.tk { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #f3ebdd; }
+.meta { display: flex; justify-content: space-between; align-items: baseline; direction: ltr; font-variant-numeric: tabular-nums; font-size: .78rem; font-weight: 600; letter-spacing: .08em; }
+.pct { color: var(--gold-ink); }
+.step { color: var(--muted); font-weight: 500; }
+
+.copy { font-size: .72rem; letter-spacing: .08em; color: var(--muted); }
+.copy [lang="ar"] { letter-spacing: 0; font-family: var(--arabic); font-size: .82rem; }
+
+@media (max-width: 520px) { body { gap: 26px; padding-bottom: 24px; } }
+@media (prefers-reduced-motion: reduce) {
+  .spin { animation: none; }
+  .float img, .float::after { animation: none; }
+  .cy > [data-l] { transition-duration: .01s; transition-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="wall" aria-hidden="true"></div>
+
+<main style="display:contents">
+  <div class="ring" aria-hidden="false">
+    <svg viewBox="0 0 320 320" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="trail" gradientUnits="userSpaceOnUse" x1="63.6" y1="45.1" x2="160" y2="10">
+          <stop offset="0" stop-color="#b88a1c" stop-opacity="0"/><stop offset="1" stop-color="#b88a1c" stop-opacity="1"/>
+        </linearGradient>
+        
+      </defs>
+      <circle class="disc" cx="160" cy="160" r="184"/>
+      <circle class="rim" cx="160" cy="160" r="184"/>
+      <circle class="dash" cx="160" cy="160" r="150"/>
+      <g class="spin">
+        <path class="trail" d="M63.6 45.1 A150 150 0 0 1 160 10"/>
+        <g transform="translate(160 10)">
+          <circle class="plate" r="25"/>
+          <g transform="translate(-26.4 -26.4) scale(2.2)">
+            <g class="whisk">
+              <path d="M12 21.6V15.2" stroke-width="2"/>
+              <path d="M10.3 15.2h3.4"/>
+              <path d="M12 15C6.4 13.4 6.4 5.4 12 2.4C17.6 5.4 17.6 13.4 12 15Z"/>
+              <path d="M12 15C9.5 12.4 9.5 6.4 12 2.4M12 15C14.5 12.4 14.5 6.4 12 2.4"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <div class="logo">
+      <img src="assets/logo.webp" width="900" height="495" alt="EMI HAKKI, Chef & Creator">
+    </div>
+  </div>
+
+  <section class="msg cy" aria-live="polite">
+    <div data-l="fr" lang="fr">
+      <span class="pill"><i></i>Bientôt disponible</span>
+      <h1><span>Là où la pâtisserie devient art,</span><span>et les idées deviennent histoires.</span></h1>
+    </div>
+    <div data-l="ar" lang="ar" dir="rtl">
+      <span class="pill"><i></i>قريباً</span>
+      <h1><span>حيث تتحول الحلوى إلى فن،</span><span>والأفكار إلى قصص.</span></h1>
+    </div>
+    <div data-l="en" lang="en">
+      <span class="pill"><i></i>Coming Soon</span>
+      <h1><span>Where pastry becomes art,</span><span>and ideas become stories.</span></h1>
+    </div>
+  </section>
+
+  <nav class="social" aria-label="Emi Hakki">
+    <a href="https://www.instagram.com/emihakki/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@emihakki" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3v11.2a3.7 3.7 0 1 1-3.7-3.7"/><path d="M14 3c.4 2.6 2 4.2 4.6 4.5"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/emi-hakki" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 7.8v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></svg>
+    </a>
+  </nav>
+
+  <div class="bar">
+    <div class="float" aria-hidden="true"><img src="assets/pistachio.webp" width="640" height="416" alt=""></div>
+    <div class="stage" id="stage" lang="fr"></div>
+    <div class="track" aria-hidden="true"><div class="fill" id="fill"></div><i class="tk" style="left:20%"></i><i class="tk" style="left:40%"></i><i class="tk" style="left:60%"></i><i class="tk" style="left:80%"></i></div>
+    <div class="meta"><span class="pct" id="pct">0%</span><span class="step" id="step">01 / 06</span></div>
+  </div>
+
+  <div class="cy copy">
+    <span data-l="fr" lang="fr">© 2026 Emi Hakki. Tous droits réservés.</span>
+    <span data-l="ar" lang="ar" dir="rtl">© 2026 Emi Hakki. جميع الحقوق محفوظة.</span>
+    <span data-l="en" lang="en">© 2026 Emi Hakki. All rights reserved.</span>
+  </div>
+</main>
+
+
+
+
+
+<script>
+/* Brings the photo to life without editing it: inside the chocolate (found from its dark colour) the picture is nudged
+   by a slow wave that travels downward and a faint sheen slides down with it. The wall and everything else stays untouched. */
+(function () {
+  var host = document.querySelector(".wall");
+  if (!host || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
+  var cv = document.createElement("canvas"); cv.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .8s ease";
+  var gl = cv.getContext("webgl", { antialias: false, alpha: false }); if (!gl) return;
+  var VS = "attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }";
+  var FS = [
+    "precision highp float;",
+    "uniform sampler2D tex; uniform vec2 R; uniform vec2 IMG; uniform vec2 POS; uniform float T;",
+    "float lum(vec3 c){ return dot(c, vec3(.299, .587, .114)); }",
+    "float h21(vec2 p){ vec3 q = fract(vec3(p.xyx) * .1031); q += dot(q, q.yzx + 33.33); return fract((q.x + q.y) * q.z); }",
+    "float n2(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);",
+    "  return mix(mix(h21(i), h21(i+vec2(1,0)), f.x), mix(h21(i+vec2(0,1)), h21(i+vec2(1,1)), f.x), f.y); }",
+    "void main(){",
+    "  vec2 frag = vec2(gl_FragCoord.x, R.y - gl_FragCoord.y);",
+    "  float sc = max(R.x / IMG.x, R.y / IMG.y);",
+    "  vec2 uv = (frag - (R - IMG * sc) * POS) / (IMG * sc);",
+    "  float r = 9.0 / IMG.x;",
+    "  float a = 0.0;",
+    "  for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) a += lum(texture2D(tex, uv + vec2(float(i), float(j)) * r).rgb);",
+    "  a /= 9.0;",
+    "  float m = 1.0 - smoothstep(.34, .58, a);",
+    "  float ph = uv.y * 64.0 - T * 1.15 + n2(vec2(uv.x * 13.0, uv.y * 5.0)) * 6.0;",
+    "  vec2 d = vec2(.0011 * sin(ph * .8 + uv.x * 37.0), .0026 * sin(ph));",
+    "  vec3 c = texture2D(tex, uv + d * m).rgb;",
+    "  float s1 = n2(vec2(uv.x * 20.0, uv.y * 8.0 - T * .32));",
+    "  float s2 = n2(vec2(uv.x * 58.0 + 3.0, uv.y * 22.0 - T * .75));",
+    "  float sh = (s1 - .5) * .5 + (s2 - .5) * .4;",
+    "  c *= 1.0 + m * sh * .24;",
+    "  c += m * pow(max(s2 - .55, 0.0) * 2.2, 2.0) * .06 * vec3(1.0, .86, .72);",
+    "  gl_FragColor = vec4(c, 1.0);",
+    "}"
+  ].join("\n");
+  function sh(t, s) { var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
+  var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
+  var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+  gl.useProgram(pr);
+  var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  var al = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
+  var U = {}; ["tex", "R", "IMG", "POS", "T"].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
+  var img = new Image();
+  img.onload = function () {
+    var tx = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tx);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img); } catch (e) { return; }
+    gl.uniform1i(U.tex, 0); gl.uniform2f(U.IMG, img.naturalWidth, img.naturalHeight);
+    host.appendChild(cv);
+    function fit() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2), w = host.clientWidth * dpr, h = host.clientHeight * dpr;
+      var k = Math.min(1, Math.sqrt((window.innerWidth < 700 ? 1.2e6 : 2.6e6) / (w * h)));
+      cv.width = Math.max(2, Math.round(w * k)); cv.height = Math.max(2, Math.round(h * k)); gl.viewport(0, 0, cv.width, cv.height);
+    }
+    fit(); var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(fit, 120); });
+    var last = 0, first = true;
+    function loop(ts) {
+      if (ts - last > 33) {
+        last = ts;
+        var portrait = host.clientWidth / host.clientHeight < 1;
+        gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.POS, portrait ? .3 : .5, portrait ? 0 : .5); gl.uniform1f(U.T, ts / 1000);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        if (first) { first = false; requestAnimationFrame(function () { cv.style.opacity = "1"; }); }
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  };
+  img.src = "assets/wall.jpg";
+})();
+</script>
+
+<script>
+(function () {
+  var root = document.documentElement, order = ["fr", "ar", "en"], i = 0, HOLD = 5600, cur = "fr";
+  root.setAttribute("data-cur", cur);
+  setInterval(function () { i = (i + 1) % order.length; cur = order[i]; root.setAttribute("data-cur", cur); label(); }, HOLD);
+
+  // Illustrative stages of the site's progress; the bar climbs to PEAK, holds, then starts again
+  var PEAK = 90;
+  var STAGES = [
+    { at: 0,  fr: "Idée et identité",            ar: "الفكرة والهوية",       en: "Concept and identity" },
+    { at: 20, fr: "Conception des pages",        ar: "تصميم الصفحات",        en: "Designing the pages" },
+    { at: 40, fr: "Photos et contenus",          ar: "الصور والمحتوى",       en: "Photos and content" },
+    { at: 60, fr: "Certifications et créations", ar: "الشهادات والأعمال",    en: "Certificates and work" },
+    { at: 80, fr: "Dernières retouches",         ar: "اللمسات الأخيرة",      en: "Final touches" },
+    { at: 88, fr: "Presque prêt",                ar: "على وشك الإطلاق",      en: "Almost ready" }
+  ];
+  var RISE = 11500, TOP = 1800, RESET = 700, LOOP = RISE + TOP + RESET;
+  var stage = document.getElementById("stage"), fill = document.getElementById("fill"), pct = document.getElementById("pct"),
+      step = document.getElementById("step"), track = fill.parentNode;
+  var idx = 0, shown = "", still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function label() {
+    var key = idx + cur;
+    if (key === shown) return;
+    shown = key; stage.classList.add("out");
+    setTimeout(function () {
+      stage.textContent = STAGES[idx][cur];
+      stage.lang = cur; stage.dir = cur === "ar" ? "rtl" : "ltr"; stage.classList.toggle("ar", cur === "ar");
+      stage.classList.remove("out");
+    }, 300);
+  }
+  function sm(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
+  var t0 = null;
+  function frame(ts) {
+    if (t0 === null) t0 = ts;
+    var t = still ? RISE + 1 : (ts - t0) % LOOP, v, op = 1;
+    if (t < RISE) { var u = t / RISE; v = PEAK * (0.85 * u + 0.15 * sm(u)); op = Math.min(1, t / 350); }
+    else { v = PEAK; if (t > RISE + TOP) op = 1 - (t - RISE - TOP) / RESET; }
+    var k = 0; for (var n = 0; n < STAGES.length; n++) if (v >= STAGES[n].at) k = n;
+    if (t > RISE + TOP + 250) k = STAGES.length - 1; // keep the last caption while the bar fades
+    if (k !== idx) { idx = k; label(); }
+    fill.style.width = v.toFixed(2) + "%";
+    track.style.opacity = op.toFixed(3);
+    pct.textContent = Math.round(v) + "%";
+    step.textContent = "0" + (idx + 1) + " / 0" + STAGES.length;
+    if (!still) requestAnimationFrame(frame);
+  }
+  label();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
